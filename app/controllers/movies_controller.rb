@@ -21,9 +21,11 @@ class MoviesController < ApplicationController
   end
 
   def update
-    @movie.tags.clear
-    params['tags'].each do |tag_name|
-      @movie.tags << Tag.find_by(name: tag_name)
+    unless @movie.tags.empty?
+      @movie.tags.clear
+      params['tags'].each do |tag_name|
+        @movie.tags << Tag.find_by(name: tag_name)
+      end
     end
 
     @movie.update(movie_params)

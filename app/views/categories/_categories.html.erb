@@ -1,0 +1,35 @@
+<main id="categories" class="container">
+  <section class="row">
+      <h1>Categories</h1>
+  </section>
+  <section class="row">
+    <% @categories.order("lower(name) ASC").each do |category| %>
+      <div class="col-sm-4">
+        <% @category = category %>
+        <%= category.name %>
+        <%= link_to 'show', category %>
+        <%= link_to 'edit', "#editCategory_#{category.id}", 'data-toggle' => 'modal' if can? :edit, @category%>
+
+        <!-- Modal -->
+              <div class="modal fade" id='editCategory_<%= category.id%>' >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Edit category</h4>
+                    </div>
+                    <div class="modal-body">
+                      <%= render 'categories/form', category: @category %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        <!-- End Modal -->        
+
+        <%= link_to 'delete', category, method: :delete, data: { confirm: 'Are you sure?' } if can? :delete, @category%>
+      </div>
+    <% end %>
+    <br>
+  </section>
+</main>
+

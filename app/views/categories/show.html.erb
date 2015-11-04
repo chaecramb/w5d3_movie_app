@@ -1,0 +1,58 @@
+<div class="jumbotron">
+  <h1><%= @category.name %></h1>
+<!--   <p class="lead">Filter by ingredients</p> -->  
+  
+<!-- Modal -->
+      <div class="modal fade" id='editCategory_<%= @category.id%>' >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Edit category</h4>
+            </div>
+            <div class="modal-body">
+              <%= render 'categories/form', category: @category %>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- End Modal --> 
+
+  <p class="btn-group">
+  <%= link_to 'Edit category', "#editCategory_#{@category.id}", 'data-toggle' => 'modal', class: 'btn btn-success btn-lg' if can? :edit, @category%>
+    <%= link_to 'Delete', @category, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-success btn-lg' if can? :delete, @category%>
+    <%= link_to 'Back', categories_path, class: 'btn btn-default btn-lg' %>
+
+     <div class="filter">
+      <form action="/categories/<%= @category.id%>" class="navbar-form" role="search">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="filter by tag" name="search" id="srch-term">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+      </form>
+    </div> 
+
+  </p>
+</div>
+
+
+  
+<% @movies = if params['search'] %>
+  <% @category.movies.select do |movie|  %>
+    <% movie.tags.include?(Tag.find_by("name ILIKE (?)", "%#{params['search']}%")) %>
+  <% end %>
+<% else %>
+  <% @category.movies %>
+<% end %>
+
+<%= render 'movies/movies', recipe: @movies %>
+
+
+
+
+
+
+
+

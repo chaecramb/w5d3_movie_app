@@ -1,0 +1,35 @@
+<main id="categories" class="container">
+  <section class="row">
+      <h1>Formats</h1>
+  </section>
+  <section class="row">
+    <% @formats.order("lower(name) ASC").each do |format| %>
+      <div class="col-sm-4">
+        <% @format = format %>
+        <%= format.name %>
+        <%= link_to 'show', format %>
+        <%= link_to 'edit', "#editFormat_#{format.id}", 'data-toggle' => 'modal' if can? :edit, @format%>
+
+        <!-- Modal -->
+              <div class="modal fade" id='editFormat_<%= format.id%>' >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Edit format</h4>
+                    </div>
+                    <div class="modal-body">
+                      <%= render 'formats/form', format: @format %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        <!-- End Modal -->        
+
+        <%= link_to 'delete', format, method: :delete, data: { confirm: 'Are you sure?' } if can? :delete, @format%>
+      </div>
+    <% end %>
+    <br>
+  </section>
+</main>
+
