@@ -1,0 +1,41 @@
+<%= form_for(@movie, html: {class: 'form'}) do |f| %>
+
+<div class="form-group">
+  <%= f.label :title %><br>
+  <%= f.text_field :title, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= f.label :review %><br>
+  <%= f.text_area :review, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <strong>Tags</strong>
+  <br>
+  <% Tag.order("lower(name) ASC").all.each do |tag| %>
+  <div class="checkbox-group">
+    <%= check_box_tag "tags[]", tag.name, @movie.tags.include?(Tag.find_by(name: tag.name))  %> 
+    <%= label :tags, tag.name %>
+  </div>
+  <% end %>
+</div>
+<div class="form-group">
+  <%= f.label :published_on %><br>
+  <%= f.date_select :published_on %>
+</div>
+<div class="form-group">
+  <%= f.label :movie_image %>
+  <%= f.file_field :movie_image, class: 'form-control'%>
+</div>
+<div class="form-group">
+  <%= f.label :category_id %><br>
+  <%= f.select :category_id, Category.all.map {|c| [c.name, c.id] } %>
+</div>
+<div class="form-group">
+  <%= f.label :format_id %><br>
+  <%= f.select :format_id, Format.all.map {|f| [f.name, f.id] } %>
+</div>
+<div>
+  <%= f.submit %>
+</div>
+<% end %>
+

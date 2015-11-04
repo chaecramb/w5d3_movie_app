@@ -1,0 +1,25 @@
+<div class="jumbotron recipes-jumbotron">
+  <h1>Movies</h1>
+  <p class="btn-group">
+  <%= link_to 'Add new movie', "#newMovie", 'data-toggle' => 'modal', class: 'btn btn-default btn-lg' if can? :add, @movie%>
+  </p>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newMovie">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Add movie</h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'movies/form', movie: @movie %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal -->
+
+<%= render 'movies/movies', movie: @movie %>
+
